@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Validation using passed=true</title>
+  <style>
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+
+<h2>Simple Form</h2>
+
+<form id="myForm">
+  <label>Name:</label><br>
+  <input type="text" id="name"><br><br>
+
+  <label>Email:</label><br>
+  <input type="email" id="email"><br><br>
+
+  <label>Password:</label><br>
+  <input type="password" id="password"><br><br>
+
+  <label>Confirm Password:</label><br>
+  <input type="password" id="confirm"><br><br>
+
+  <button type="submit">Submit</button>
+</form>
+
+<div id="message"></div>
+
+<script>
+document.getElementById('myForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // prevent actual form submission
+
+  let passed = true; // assume everything is valid
+  let errors = [];
+
+  // Get values
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirm = document.getElementById('confirm').value;
+  const message = document.getElementById('message');
+
+  // Name check
+  if (name === "") {
+    errors.push("Name is required.");
+    passed = false;
+  }
+
+  // Email pattern
+  const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  if (!emailPattern.test(email)) {
+    errors.push("Invalid email address.");
+    passed = false;
+  }
+
+  // Password length
+  if (password.length < 6) {
+    errors.push("Password must be at least 6 characters.");
+    passed = false;
+  }
+
+  // Password match
+  if (password !== confirm) {
+    errors.push("Passwords do not match.");
+    passed = false;
+  }
+
+  // Show results
+  if (passed) {
+    message.innerHTML = "<p class='success'>✅ All checks passed!</p>";
+    // event.target.submit(); // Uncomment if you want to actually submit
+  } else {
+    message.innerHTML = "<ul class='error'><li>" + errors.join("</li><li>") + "</li></ul>";
+  }
+});
+</script>
+
+</body>
+</html>

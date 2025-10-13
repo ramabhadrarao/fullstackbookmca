@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Form Validation</title>
+  <style>
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+
+<h2>Registration Form</h2>
+
+<form id="myForm" onsubmit="return validateForm()">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name" required><br><br>
+
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email" 
+         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required><br><br>
+
+  <label for="password">Password:</label><br>
+  <input type="password" id="password" name="password" minlength="6" required><br><br>
+
+  <label for="confirm">Confirm Password:</label><br>
+  <input type="password" id="confirm" name="confirm" required><br><br>
+
+  <input type="submit" value="Register">
+</form>
+
+<div id="message"></div>
+
+<script>
+function validateForm() {
+  let name = document.getElementById('name').value.trim();
+  let email = document.getElementById('email').value.trim();
+  let password = document.getElementById('password').value;
+  let confirm = document.getElementById('confirm').value;
+  let message = document.getElementById('message');
+
+  let errors = [];
+
+  // Name required
+  if (name === "") {
+    errors.push("Name is required.");
+  }
+
+  // Email pattern (HTML already checks it, but adding a message)
+  let emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  if (!emailPattern.test(email)) {
+    errors.push("Enter a valid email address.");
+  }
+
+  // Password length
+  if (password.length < 6) {
+    errors.push("Password must be at least 6 characters.");
+  }
+
+  // Password match
+  if (password !== confirm) {
+    errors.push("Passwords do not match.");
+  }
+
+  // Show errors or success
+  if (errors.length > 0) {
+    message.innerHTML = "<ul class='error'><li>" + errors.join("</li><li>") + "</li></ul>";
+    return false; // Prevent form submission
+  } else {
+    message.innerHTML = "<p class='success'>Form submitted successfully!</p>";
+    return false; // Simulate success (remove this 'return false' to actually submit)
+  }
+}
+</script>
+
+</body>
+</html>
