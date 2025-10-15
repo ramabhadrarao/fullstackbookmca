@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Async/Await Add</title>
+</head>
+<body>
+  <h2>Add Two Numbers</h2>
+
+  <form id="addForm">
+    <input type="number" id="x" placeholder="Enter x" required>
+    <input type="number" id="y" placeholder="Enter y" required>
+    <button type="submit">Send</button>
+  </form>
+
+  <h3>Result: <span id="result">--</span></h3>
+
+  <script>
+    const form = document.getElementById('addForm');
+    const resultSpan = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const x = document.getElementById('x').value;
+      const y = document.getElementById('y').value;
+
+      try {
+        const response = await fetch('http://localhost:3000/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ x: Number(x), y: Number(y) })
+        });
+
+        if (!response.ok) {
+          throw new Error('Server error');
+        }
+
+        const data = await response.json();
+        resultSpan.textContent = data.result;
+      } catch (error) {
+        console.error('Error:', error);
+        resultSpan.textContent = 'Error connecting to server';
+      }
+    });
+  </script>
+</body>
+</html>
