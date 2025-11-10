@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphQL Tutorial - Complete Guide</title>
+    
+    <!-- Tabler UI CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+    
+    <!-- Prism CSS for Code Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    
+    <style>
+        body {
+            background-color: #f5f7fb;
+        }
+        .code-block {
+            margin: 1rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        pre {
+            margin: 0 !important;
+            border-radius: 8px;
+        }
+        .card {
+            margin-bottom: 1.5rem;
+        }
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+    <div class="page-wrapper">
+        
+        <!-- Header -->
+        <div class="page-header d-print-none">
+            <div class="container-xl">
+                <div class="row g-2 align-items-center">
+                    <div class="col">
+                        <h2 class="page-title">
+                            GraphQL Complete Tutorial
+                        </h2>
+                        <div class="text-muted mt-1">Node.js + Express + MongoDB + React</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Body -->
+        <div class="page-body">
+            <div class="container-xl">
+
+                <!-- Introduction Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📚 What is GraphQL?</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>GraphQL</strong> is a query language for APIs that allows clients to request exactly the data they need.</p>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <h4 class="text-primary">✅ Advantages</h4>
+                                <ul>
+                                    <li>Request exact data needed</li>
+                                    <li>Single endpoint for all operations</li>
+                                    <li>Strongly typed schema</li>
+                                    <li>No over-fetching or under-fetching</li>
+                                    <li>Real-time updates with subscriptions</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 class="text-danger">📌 Key Concepts</h4>
+                                <ul>
+                                    <li><strong>Query:</strong> Read data</li>
+                                    <li><strong>Mutation:</strong> Create/Update/Delete data</li>
+                                    <li><strong>Schema:</strong> Define data structure</li>
+                                    <li><strong>Resolver:</strong> Functions to fetch data</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Structure -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📁 Project Structure</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="code-block">
+<pre><code class="language-bash">graphql-app/
+├── server/
+│   ├── models/
+│   │   └── User.js
+│   ├── schema/
+│   │   └── schema.js
+│   └── server.js
+├── client/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── UserList.js
+│   │   ├── App.js
+│   │   └── index.js
+│   └── package.json
+└── package.json
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Installation -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">⚙️ Installation & Setup</h3>
+                    </div>
+                    <div class="card-body">
+                        <h4>Step 1: Create Project</h4>
+                        <div class="code-block">
+<pre><code class="language-bash">mkdir graphql-app
+cd graphql-app
+npm init -y
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">Step 2: Install Dependencies</h4>
+                        <div class="code-block">
+<pre><code class="language-bash"># Server dependencies
+npm install express express-graphql graphql mongoose cors
+
+# Development dependencies
+npm install nodemon --save-dev
+</code></pre>
+                        </div>
+
+                        <div class="highlight-box mt-3">
+                            <strong>📦 Package Explanation:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li><strong>express:</strong> Web framework</li>
+                                <li><strong>express-graphql:</strong> GraphQL middleware</li>
+                                <li><strong>graphql:</strong> GraphQL library</li>
+                                <li><strong>mongoose:</strong> MongoDB ODM</li>
+                                <li><strong>cors:</strong> Enable cross-origin requests</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database Model -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🗄️ Database Model - Mongoose</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>File:</strong> <code>server/models/User.js</code></p>
+                        <div class="code-block">
+<pre><code class="language-javascript">const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  age: {
+    type: Number,
+    required: true
+  },
+  city: {
+    type: String,
+    required: true
+  }
+}, {
+  timestamps: true
+});
+
+module.exports = mongoose.model('User', userSchema);
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GraphQL Schema -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📋 GraphQL Schema Definition</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>File:</strong> <code>server/schema/schema.js</code></p>
+                        <div class="code-block">
+<pre><code class="language-javascript">const graphql = require('graphql');
+const User = require('../models/User');
+
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLInt,
+  GraphQLID,
+  GraphQLList,
+  GraphQLSchema,
+  GraphQLNonNull
+} = graphql;
+
+// ========================================
+// USER TYPE DEFINITION
+// ========================================
+const UserType = new GraphQLObjectType({
+  name: 'User',
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    email: { type: GraphQLString },
+    age: { type: GraphQLInt },
+    city: { type: GraphQLString }
+  })
+});
+
+// ========================================
+// ROOT QUERY (READ OPERATIONS)
+// ========================================
+const RootQuery = new GraphQLObjectType({
+  name: 'RootQueryType',
+  fields: {
+    
+    // Get Single User by ID
+    user: {
+      type: UserType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return User.findById(args.id);
+      }
+    },
+    
+    // Get All Users
+    users: {
+      type: new GraphQLList(UserType),
+      resolve(parent, args) {
+        return User.find({});
+      }
+    },
+    
+    // Get Users by City
+    usersByCity: {
+      type: new GraphQLList(UserType),
+      args: { city: { type: GraphQLString } },
+      resolve(parent, args) {
+        return User.find({ city: args.city });
+      }
+    }
+  }
+});
+
+// ========================================
+// MUTATIONS (CREATE, UPDATE, DELETE)
+// ========================================
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    
+    // Add New User
+    addUser: {
+      type: UserType,
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        age: { type: new GraphQLNonNull(GraphQLInt) },
+        city: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        const user = new User({
+          name: args.name,
+          email: args.email,
+          age: args.age,
+          city: args.city
+        });
+        return user.save();
+      }
+    },
+    
+    // Update User
+    updateUser: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString },
+        email: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        city: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        return User.findByIdAndUpdate(
+          args.id,
+          {
+            $set: {
+              name: args.name,
+              email: args.email,
+              age: args.age,
+              city: args.city
+            }
+          },
+          { new: true }
+        );
+      }
+    },
+    
+    // Delete User
+    deleteUser: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        return User.findByIdAndDelete(args.id);
+      }
+    }
+  }
+});
+
+// ========================================
+// EXPORT SCHEMA
+// ========================================
+module.exports = new GraphQLSchema({
+  query: RootQuery,
+  mutation: Mutation
+});
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Express Server -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🚀 Express Server Setup</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>File:</strong> <code>server/server.js</code></p>
+                        <div class="code-block">
+<pre><code class="language-javascript">const express = require('express');
+const { graphqlHTTP } = require('express-graphql');
+const schema = require('./schema/schema');
+const mongoose = require('mongoose');
+const cors = require('cors');
+
+const app = express();
+const PORT = 5000;
+
+// Enable CORS
+app.use(cors());
+
+// MongoDB Connection
+mongoose.connect('mongodb://localhost:27017/graphql_db', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+mongoose.connection.once('open', () => {
+  console.log('✅ Connected to MongoDB');
+});
+
+// GraphQL Endpoint
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  graphiql: true  // Enable GraphiQL interface
+}));
+
+// Start Server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`📊 GraphiQL interface: http://localhost:${PORT}/graphql`);
+});
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">Update package.json Scripts</h4>
+                        <div class="code-block">
+<pre><code class="language-json">{
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
+  }
+}
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">Run Server</h4>
+                        <div class="code-block">
+<pre><code class="language-bash">npm run dev
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GraphQL Queries Examples -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🔍 GraphQL Query Examples</h3>
+                    </div>
+                    <div class="card-body">
+                        
+                        <h4>1. Get All Users</h4>
+                        <div class="code-block">
+<pre><code class="language-graphql">query {
+  users {
+    id
+    name
+    email
+    age
+    city
+  }
+}
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">2. Get Single User by ID</h4>
+                        <div class="code-block">
+<pre><code class="language-graphql">query {
+  user(id: "507f1f77bcf86cd799439011") {
+    id
+    name
+    email
+    age
+    city
+  }
+}
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">3. Get Users by City</h4>
+                        <div class="code-block">
+<pre><code class="language-graphql">query {
+  usersByCity(city: "New York") {
+    id
+    name
+    email
+    age
+  }
+}
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">4. Get Only Specific Fields</h4>
+                        <div class="code-block">
+<pre><code class="language-graphql">query {
+  users {
+    name
+    email
+  }
+}
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GraphQL Mutations Examples -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">✏️ GraphQL Mutation Examples</h3>
+                    </div>
+                    <div class="card-body">
+                        
+                        <h4>1. Add New User</h4>
+                        <div class="code-block">
+<pre><code class="language-graphql">mutation {
+  addUser(
+    name: "John Doe"
+    email: "john@example.com"
+    age: 25
+    city: "New York"
+  ) {
+    id
+    name
+    email
+    age
+    city
+  }
+}
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">2. Update User</h4>
+                        <div class="code-block">
+<pre><code class="language-graphql">mutation {
+  updateUser(
+    id: "507f1f77bcf86cd799439011"
+    name: "John Updated"
+    age: 26
+    city: "Los Angeles"
+  ) {
+    id
+    name
+    email
+    age
+    city
+  }
+}
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">3. Delete User</h4>
+                        <div class="code-block">
+<pre><code class="language-graphql">mutation {
+  deleteUser(id: "507f1f77bcf86cd799439011") {
+    id
+    name
+  }
+}
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- React Client Setup -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">⚛️ React Client Setup</h3>
+                    </div>
+                    <div class="card-body">
+                        
+                        <h4>Step 1: Create React App</h4>
+                        <div class="code-block">
+<pre><code class="language-bash">npx create-react-app client
+cd client
+npm install @apollo/client graphql
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">Step 2: Apollo Client Setup</h4>
+                        <p><strong>File:</strong> <code>client/src/index.js</code></p>
+                        <div class="code-block">
+<pre><code class="language-javascript">import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+// Apollo Client Configuration
+const client = new ApolloClient({
+  uri: 'http://localhost:5000/graphql',
+  cache: new InMemoryCache()
+});
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </React.StrictMode>
+);
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- React Query Component -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📱 React Component - Display Users</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>File:</strong> <code>client/src/components/UserList.js</code></p>
+                        <div class="code-block">
+<pre><code class="language-javascript">import React from 'react';
+import { useQuery, gql } from '@apollo/client';
+
+// Define GraphQL Query
+const GET_USERS = gql`
+  query GetUsers {
+    users {
+      id
+      name
+      email
+      age
+      city
+    }
+  }
+`;
+
+function UserList() {
+  const { loading, error, data } = useQuery(GET_USERS);
+
+  if (loading) return &lt;p&gt;Loading...&lt;/p&gt;;
+  if (error) return &lt;p&gt;Error: {error.message}&lt;/p&gt;;
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;User List&lt;/h2&gt;
+      &lt;table className="table"&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Email&lt;/th&gt;
+            &lt;th&gt;Age&lt;/th&gt;
+            &lt;th&gt;City&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          {data.users.map(user =&gt; (
+            &lt;tr key={user.id}&gt;
+              &lt;td&gt;{user.name}&lt;/td&gt;
+              &lt;td&gt;{user.email}&lt;/td&gt;
+              &lt;td&gt;{user.age}&lt;/td&gt;
+              &lt;td&gt;{user.city}&lt;/td&gt;
+            &lt;/tr&gt;
+          ))}
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default UserList;
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- React Mutation Component -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">➕ React Component - Add User</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>File:</strong> <code>client/src/components/AddUser.js</code></p>
+                        <div class="code-block">
+<pre><code class="language-javascript">import React, { useState } from 'react';
+import { useMutation, gql } from '@apollo/client';
+
+// Define GraphQL Mutation
+const ADD_USER = gql`
+  mutation AddUser($name: String!, $email: String!, $age: Int!, $city: String!) {
+    addUser(name: $name, email: $email, age: $age, city: $city) {
+      id
+      name
+      email
+      age
+      city
+    }
+  }
+`;
+
+// Refetch query after mutation
+const GET_USERS = gql`
+  query GetUsers {
+    users {
+      id
+      name
+      email
+      age
+      city
+    }
+  }
+`;
+
+function AddUser() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    age: '',
+    city: ''
+  });
+
+  const [addUser, { loading, error }] = useMutation(ADD_USER, {
+    refetchQueries: [{ query: GET_USERS }]
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addUser({
+      variables: {
+        name: formData.name,
+        email: formData.email,
+        age: parseInt(formData.age),
+        city: formData.city
+      }
+    });
+    // Reset form
+    setFormData({ name: '', email: '', age: '', city: '' });
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Add New User&lt;/h2&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;div className="mb-3"&gt;
+          &lt;label&gt;Name:&lt;/label&gt;
+          &lt;input 
+            type="text" 
+            name="name" 
+            value={formData.name}
+            onChange={handleChange}
+            className="form-control"
+            required
+          /&gt;
+        &lt;/div&gt;
+        
+        &lt;div className="mb-3"&gt;
+          &lt;label&gt;Email:&lt;/label&gt;
+          &lt;input 
+            type="email" 
+            name="email" 
+            value={formData.email}
+            onChange={handleChange}
+            className="form-control"
+            required
+          /&gt;
+        &lt;/div&gt;
+        
+        &lt;div className="mb-3"&gt;
+          &lt;label&gt;Age:&lt;/label&gt;
+          &lt;input 
+            type="number" 
+            name="age" 
+            value={formData.age}
+            onChange={handleChange}
+            className="form-control"
+            required
+          /&gt;
+        &lt;/div&gt;
+        
+        &lt;div className="mb-3"&gt;
+          &lt;label&gt;City:&lt;/label&gt;
+          &lt;input 
+            type="text" 
+            name="city" 
+            value={formData.city}
+            onChange={handleChange}
+            className="form-control"
+            required
+          /&gt;
+        &lt;/div&gt;
+        
+        &lt;button type="submit" className="btn btn-primary" disabled={loading}&gt;
+          {loading ? 'Adding...' : 'Add User'}
+        &lt;/button&gt;
+      &lt;/form&gt;
+      {error && &lt;p className="text-danger mt-2"&gt;Error: {error.message}&lt;/p&gt;}
+    &lt;/div&gt;
+  );
+}
+
+export default AddUser;
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main App Component -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🏠 Main App Component</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>File:</strong> <code>client/src/App.js</code></p>
+                        <div class="code-block">
+<pre><code class="language-javascript">import React from 'react';
+import UserList from './components/UserList';
+import AddUser from './components/AddUser';
+import './App.css';
+
+function App() {
+  return (
+    &lt;div className="container mt-5"&gt;
+      &lt;h1 className="text-center mb-4"&gt;GraphQL User Management&lt;/h1&gt;
+      
+      &lt;div className="row"&gt;
+        &lt;div className="col-md-4"&gt;
+          &lt;AddUser /&gt;
+        &lt;/div&gt;
+        &lt;div className="col-md-8"&gt;
+          &lt;UserList /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Running the Application -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">▶️ Running the Application</h3>
+                    </div>
+                    <div class="card-body">
+                        
+                        <h4>Step 1: Start MongoDB</h4>
+                        <div class="code-block">
+<pre><code class="language-bash"># Make sure MongoDB is running
+mongod
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">Step 2: Start Backend Server</h4>
+                        <div class="code-block">
+<pre><code class="language-bash"># In the root directory
+npm run dev
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">Step 3: Start React Client</h4>
+                        <div class="code-block">
+<pre><code class="language-bash"># In the client directory
+cd client
+npm start
+</code></pre>
+                        </div>
+
+                        <div class="alert alert-info mt-3">
+                            <strong>📍 Access Points:</strong>
+                            <ul class="mb-0">
+                                <li>Backend: <code>http://localhost:5000</code></li>
+                                <li>GraphiQL Interface: <code>http://localhost:5000/graphql</code></li>
+                                <li>React Frontend: <code>http://localhost:3000</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GraphQL vs REST Comparison -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">⚡ GraphQL vs REST API</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>REST API</th>
+                                        <th>GraphQL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Endpoints</strong></td>
+                                        <td>Multiple endpoints<br>(/users, /posts, /comments)</td>
+                                        <td>Single endpoint<br>(/graphql)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Data Fetching</strong></td>
+                                        <td>Fixed data structure<br>(Over-fetching/Under-fetching)</td>
+                                        <td>Request exactly what you need</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>API Calls</strong></td>
+                                        <td>Multiple requests for related data</td>
+                                        <td>Single request for all data</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Versioning</strong></td>
+                                        <td>Requires versioning (v1, v2)</td>
+                                        <td>No versioning needed</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Learning Curve</strong></td>
+                                        <td>Easy to learn</td>
+                                        <td>Moderate learning curve</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common GraphQL Types -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📝 Common GraphQL Types</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="code-block">
+<pre><code class="language-javascript">// Scalar Types
+GraphQLString    // "Hello World"
+GraphQLInt       // 123
+GraphQLFloat     // 123.45
+GraphQLBoolean   // true/false
+GraphQLID        // Unique identifier
+
+// Object Type
+const UserType = new GraphQLObjectType({
+  name: 'User',
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString }
+  })
+});
+
+// List Type
+new GraphQLList(UserType)
+
+// Non-Null Type (Required)
+new GraphQLNonNull(GraphQLString)
+
+// Enum Type
+const RoleType = new GraphQLEnumType({
+  name: 'Role',
+  values: {
+    ADMIN: { value: 'admin' },
+    USER: { value: 'user' }
+  }
+});
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Best Practices -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">✨ Best Practices</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="text-success">✅ DO</h4>
+                                <ul>
+                                    <li>Use descriptive names for queries and mutations</li>
+                                    <li>Validate input data</li>
+                                    <li>Handle errors gracefully</li>
+                                    <li>Use fragments for reusable fields</li>
+                                    <li>Implement pagination for large datasets</li>
+                                    <li>Add authentication and authorization</li>
+                                    <li>Use DataLoader to prevent N+1 queries</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 class="text-danger">❌ DON'T</h4>
+                                <ul>
+                                    <li>Don't fetch all data at once (use pagination)</li>
+                                    <li>Don't expose sensitive information</li>
+                                    <li>Don't create deeply nested queries</li>
+                                    <li>Don't ignore error handling</li>
+                                    <li>Don't skip input validation</li>
+                                    <li>Don't use GraphQL for file uploads (use REST)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Handling -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🚨 Error Handling</h3>
+                    </div>
+                    <div class="card-body">
+                        <h4>Server-Side Error Handling</h4>
+                        <div class="code-block">
+<pre><code class="language-javascript">resolve(parent, args) {
+  try {
+    // Check if user exists
+    const existingUser = await User.findOne({ email: args.email });
+    if (existingUser) {
+      throw new Error('Email already exists');
+    }
+    
+    // Create user
+    const user = new User({ ...args });
+    return await user.save();
+    
+  } catch (error) {
+    throw new Error(`Failed to add user: ${error.message}`);
+  }
+}
+</code></pre>
+                        </div>
+
+                        <h4 class="mt-4">Client-Side Error Handling</h4>
+                        <div class="code-block">
+<pre><code class="language-javascript">const [addUser, { loading, error }] = useMutation(ADD_USER, {
+  onCompleted: (data) => {
+    console.log('User added successfully:', data);
+    alert('User added!');
+  },
+  onError: (error) => {
+    console.error('Error adding user:', error);
+    alert(`Error: ${error.message}`);
+  }
+});
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice Exercises -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🎯 Practice Exercises</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-primary">
+                            <h4>Exercise 1: Add Search Functionality</h4>
+                            <p>Create a query to search users by name</p>
+                        </div>
+
+                        <div class="alert alert-success">
+                            <h4>Exercise 2: Add Age Filter</h4>
+                            <p>Create a query to get users above a certain age</p>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <h4>Exercise 3: Implement Pagination</h4>
+                            <p>Add limit and skip parameters to the users query</p>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <h4>Exercise 4: Add More Fields</h4>
+                            <p>Extend the User model with: phone, address, profession</p>
+                        </div>
+
+                        <div class="alert alert-danger">
+                            <h4>Exercise 5: Create a New Model</h4>
+                            <p>Create a Post model related to Users (one-to-many relationship)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Troubleshooting -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🔧 Common Issues & Solutions</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Problem</th>
+                                        <th>Solution</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CORS Error</td>
+                                        <td>Install and use <code>cors</code> middleware in Express</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MongoDB Connection Failed</td>
+                                        <td>Make sure MongoDB is running: <code>mongod</code></td>
+                                    </tr>
+                                    <tr>
+                                        <td>GraphiQL not loading</td>
+                                        <td>Check if <code>graphiql: true</code> is set in GraphQL config</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mutation not updating UI</td>
+                                        <td>Add <code>refetchQueries</code> to mutation</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Port already in use</td>
+                                        <td>Kill the process: <code>lsof -ti:5000 | xargs kill</code></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resources -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📚 Additional Resources</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Documentation</h4>
+                                <ul>
+                                    <li><a href="https://graphql.org/" target="_blank">GraphQL Official Docs</a></li>
+                                    <li><a href="https://www.apollographql.com/docs/" target="_blank">Apollo Client Docs</a></li>
+                                    <li><a href="https://mongoosejs.com/" target="_blank">Mongoose Docs</a></li>
+                                    <li><a href="https://expressjs.com/" target="_blank">Express.js Docs</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Tools</h4>
+                                <ul>
+                                    <li><strong>GraphiQL:</strong> In-browser GraphQL IDE</li>
+                                    <li><strong>Apollo Studio:</strong> GraphQL development platform</li>
+                                    <li><strong>Postman:</strong> Test GraphQL queries</li>
+                                    <li><strong>MongoDB Compass:</strong> GUI for MongoDB</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="card bg-primary text-white">
+                    <div class="card-body text-center">
+                        <h3>🎓 Congratulations!</h3>
+                        <p class="mb-0">You've completed the GraphQL tutorial. Now start building your own applications!</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabler Core JS -->
+<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
+
+<!-- Prism JS for Code Highlighting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-graphql.min.js"></script>
+
+</body>
+</html>
