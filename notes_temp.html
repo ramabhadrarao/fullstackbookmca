@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webpack Complete Guide - Student Notes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        .definition-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .key-point {
+            background: #e8f4f8;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .example-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .code-header {
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 0.5rem 1rem;
+            border-radius: 6px 6px 0 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        pre[class*="language-"] {
+            margin-top: 0 !important;
+            border-radius: 0 0 6px 6px !important;
+        }
+        .comparison-table {
+            margin: 1.5rem 0;
+        }
+        .vs-badge {
+            background: #dc3545;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: start;
+            margin: 0.75rem 0;
+        }
+        .benefit-icon {
+            color: #10b981;
+            margin-right: 0.75rem;
+            font-size: 1.5rem;
+        }
+        .workflow-step {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .folder-structure {
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        .folder-icon {
+            color: #fbbf24;
+        }
+        .file-icon {
+            color: #60a5fa;
+        }
+        .arrow-icon {
+            color: #10b981;
+            font-size: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .note-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .warning-box {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .success-box {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .section-icon {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        .toc-link {
+            color: #475569;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            display: block;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .toc-link:hover {
+            background: #f1f5f9;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-4 mb-2">
+                        <i class="ti ti-package"></i> Webpack Complete Guide
+                    </h1>
+                    <p class="lead mb-0">Transform, Bundle, HMR & Debugging for Full Stack Development</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="badge bg-white text-dark fs-4 p-3">
+                        <i class="ti ti-school"></i> Student Notes
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Table of Contents -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="ti ti-list"></i> Table of Contents</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="#what-is-webpack" class="toc-link"><i class="ti ti-chevron-right"></i> 1. What is Webpack?</a>
+                                <a href="#transform-bundle" class="toc-link"><i class="ti ti-chevron-right"></i> 2. Transform and Bundle</a>
+                                <a href="#libraries-bundle" class="toc-link"><i class="ti ti-chevron-right"></i> 3. Libraries Bundle</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#hmr" class="toc-link"><i class="ti ti-chevron-right"></i> 4. Hot Module Replacement</a>
+                                <a href="#debugging" class="toc-link"><i class="ti ti-chevron-right"></i> 5. Debugging</a>
+                                <a href="#cra-webpack" class="toc-link"><i class="ti ti-chevron-right"></i> 6. Webpack in Create React App</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: What is Webpack -->
+        <div class="row" id="what-is-webpack">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="card-title mb-0">
+                            <i class="ti ti-info-circle"></i> 1. What is Webpack?
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center section-icon">
+                            <i class="ti ti-package"></i>
+                        </div>
+
+                        <div class="definition-box">
+                            <h3><i class="ti ti-bulb"></i> Definition</h3>
+                            <p class="fs-4 mb-0">
+                                <strong>Webpack</strong> is a <strong>module bundler</strong> that takes all your project files 
+                                (JavaScript, CSS, images, React components) and bundles them into a small number of optimized 
+                                files that the browser can load easily.
+                            </p>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-arrow-right"></i> Simple Explanation</h4>
+                        <div class="key-point">
+                            <p class="mb-2"><strong>Webpack = A tool that prepares your code for the browser</strong></p>
+                            <ul class="mb-0">
+                                <li>Transforms modern code → browser-friendly code</li>
+                                <li>Bundles many files → into a few optimized files</li>
+                            </ul>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-question-mark"></i> Why Do We Need Webpack?</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-header">
+                                        <strong><i class="ti ti-x"></i> Without Webpack</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul>
+                                            <li>Browser cannot read JSX</li>
+                                            <li>Cannot use modern ES6+ JavaScript</li>
+                                            <li>Many separate files (slow loading)</li>
+                                            <li>Manual file linking</li>
+                                            <li>No CSS imports in JS</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-success text-white">
+                                    <div class="card-header">
+                                        <strong><i class="ti ti-check"></i> With Webpack</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul>
+                                            <li>JSX → normal JavaScript</li>
+                                            <li>Modern JS → browser-compatible JS</li>
+                                            <li>Combined into few bundles</li>
+                                            <li>Automatic dependency management</li>
+                                            <li>CSS imports work seamlessly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-activity"></i> How Webpack Works (Simple Steps)</h4>
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <h5 class="mt-2">You write your code (many small files)</h5>
+                            <p class="text-muted mb-0">Create React components, CSS files, images, etc.</p>
+                        </div>
+                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <h5 class="mt-2">Webpack builds a dependency graph</h5>
+                            <p class="text-muted mb-0">Analyzes all import/require statements</p>
+                        </div>
+                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <h5 class="mt-2">Webpack transforms and bundles everything</h5>
+                            <p class="text-muted mb-0">Uses loaders and plugins to process files</p>
+                        </div>
+                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <h5 class="mt-2">Webpack outputs final files for the browser</h5>
+                            <p class="text-muted mb-0">Optimized bundles ready for production</p>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-box"></i> Visual Example</h4>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong><i class="ti ti-folders"></i> Your Source Files</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="folder-structure">
+src/
+├── <span class="folder-icon">📁</span> components/
+│   ├── <span class="file-icon">📄</span> Header.js
+│   ├── <span class="file-icon">📄</span> Footer.js
+│   └── <span class="file-icon">📄</span> Button.js
+├── <span class="file-icon">📄</span> App.js
+├── <span class="file-icon">📄</span> index.js
+├── <span class="file-icon">📄</span> styles.css
+└── <span class="file-icon">🖼️</span> logo.png
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <i class="ti ti-arrow-right" style="font-size: 3rem; color: #667eea;"></i>
+                                    <div class="badge bg-primary mt-2">Webpack</div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong><i class="ti ti-package"></i> Output (Bundled Files)</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="folder-structure">
+build/
+├── <span class="file-icon">📄</span> main.js (All JS bundled)
+├── <span class="file-icon">📄</span> main.css (All CSS bundled)
+├── <span class="file-icon">📄</span> index.html
+└── <span class="folder-icon">📁</span> static/
+    └── <span class="file-icon">🖼️</span> logo.abc123.png
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="success-box mt-4">
+                            <h5><i class="ti ti-circle-check"></i> Key Takeaway</h5>
+                            <p class="mb-0">
+                                Browser loads only 2-3 optimized files instead of 20+ separate files, 
+                                making your website much faster!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Transform and Bundle -->
+        <div class="row" id="transform-bundle">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h2 class="card-title mb-0">
+                            <i class="ti ti-transform"></i> 2. Webpack: Transform and Bundle
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center section-icon">
+                            <i class="ti ti-arrows-exchange"></i>
+                        </div>
+
+                        <div class="definition-box">
+                            <h3><i class="ti ti-bulb"></i> What Does Transform and Bundle Mean?</h3>
+                            <p class="fs-5 mb-2">Webpack does two main jobs:</p>
+                            <ol class="fs-5">
+                                <li><strong>Transform</strong> → Convert files into browser-friendly versions</li>
+                                <li><strong>Bundle</strong> → Combine many files into a small number of output files</li>
+                            </ol>
+                        </div>
+
+                        <!-- Transform Section -->
+                        <h3 class="mt-5 mb-3"><i class="ti ti-wand"></i> Part 1: Transform (Converting Code)</h3>
+                        
+                        <div class="key-point">
+                            <p><strong>Problem:</strong> Modern JavaScript (ES6+), JSX, TypeScript, CSS imports 
+                            → The browser cannot understand them directly.</p>
+                            <p class="mb-0"><strong>Solution:</strong> Webpack uses <strong>loaders</strong> to transform these files.</p>
+                        </div>
+
+                        <h4 class="mt-4 mb-3">Example 1: Transforming JSX to Normal JavaScript</h4>
+                        <div class="example-box">
+                            <h5><i class="ti ti-code"></i> What You Write (JSX)</h5>
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> App.js
+                            </div>
+                            <pre><code class="language-javascript">// This is JSX (React code)
+const title = &lt;h1&gt;Hello World&lt;/h1&gt;;
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Welcome to React!&lt;/h1&gt;
+      &lt;p&gt;This is JSX code&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+                            <div class="note-box mt-3">
+                                <strong><i class="ti ti-alert-circle"></i> Problem:</strong> 
+                                The browser does not understand JSX syntax like <code>&lt;h1&gt;</code> inside JavaScript!
+                            </div>
+
+                            <h5 class="mt-4"><i class="ti ti-transform"></i> What Webpack Does (Using babel-loader)</h5>
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> Transformed JavaScript
+                            </div>
+                            <pre><code class="language-javascript">// Webpack transforms JSX into this:
+const title = React.createElement("h1", null, "Hello World");
+
+function App() {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement("h1", null, "Welcome to React!"),
+    React.createElement("p", null, "This is JSX code")
+  );
+}</code></pre>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-circle-check"></i> Result:</strong> 
+                                Now the browser can understand and execute the code!
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3">Example 2: Transforming Modern JavaScript (ES6+)</h4>
+                        <div class="example-box">
+                            <h5><i class="ti ti-code"></i> Modern ES6 Code</h5>
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> utils.js
+                            </div>
+                            <pre><code class="language-javascript">// Arrow functions, const/let, template literals
+const greet = (name) => `Hello ${name}!`;
+
+const multiply = (a, b) => a * b;
+
+// Destructuring
+const { firstName, lastName } = user;</code></pre>
+
+                            <h5 class="mt-4"><i class="ti ti-transform"></i> Transformed to ES5 (Old JavaScript)</h5>
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> Compatible JavaScript
+                            </div>
+                            <pre><code class="language-javascript">// Compatible with older browsers
+var greet = function(name) {
+  return "Hello " + name + "!";
+};
+
+var multiply = function(a, b) {
+  return a * b;
+};
+
+var firstName = user.firstName;
+var lastName = user.lastName;</code></pre>
+                        </div>
+
+                        <h4 class="mt-4 mb-3">Example 3: Transforming CSS Imports</h4>
+                        <div class="example-box">
+                            <h5><i class="ti ti-code"></i> Importing CSS in JavaScript</h5>
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> App.js
+                            </div>
+                            <pre><code class="language-javascript">// You can import CSS directly in JS
+import './styles.css';
+import './App.css';
+
+function App() {
+  return &lt;h1 className="title"&gt;Hello&lt;/h1&gt;;
+}</code></pre>
+
+                            <div class="note-box mt-3">
+                                <strong><i class="ti ti-alert-circle"></i> Note:</strong> 
+                                Browsers cannot import CSS inside JavaScript files normally!
+                            </div>
+
+                            <h5 class="mt-4"><i class="ti ti-transform"></i> What Webpack Does</h5>
+                            <p>Uses <code>css-loader</code> and <code>style-loader</code> to:</p>
+                            <ol>
+                                <li>Read the CSS file</li>
+                                <li>Convert it to JavaScript</li>
+                                <li>Inject it into the page automatically</li>
+                            </ol>
+
+                            <div class="success-box">
+                                <strong><i class="ti ti-circle-check"></i> Result:</strong> 
+                                CSS is automatically added to your HTML page!
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-settings"></i> Common Webpack Loaders</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>Loader</th>
+                                        <th>Purpose</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>babel-loader</code></td>
+                                        <td>Transforms JSX and ES6+ to browser-compatible JS</td>
+                                        <td>JSX → React.createElement()</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>css-loader</code></td>
+                                        <td>Handles CSS imports in JavaScript</td>
+                                        <td>import './style.css'</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>style-loader</code></td>
+                                        <td>Injects CSS into the DOM</td>
+                                        <td>Adds &lt;style&gt; tags</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>file-loader</code></td>
+                                        <td>Handles images, fonts, files</td>
+                                        <td>import logo from './logo.png'</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>sass-loader</code></td>
+                                        <td>Transforms SCSS/SASS to CSS</td>
+                                        <td>.scss → .css</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Bundle Section -->
+                        <h3 class="mt-5 mb-3"><i class="ti ti-package"></i> Part 2: Bundle (Combining Files)</h3>
+
+                        <div class="key-point">
+                            <p><strong>Problem:</strong> Modern apps have many files (50+). Browsers prefer fewer files 
+                            because too many HTTP requests slow down the website.</p>
+                            <p class="mb-0"><strong>Solution:</strong> Webpack combines all files into a few bundles.</p>
+                        </div>
+
+                        <h4 class="mt-4 mb-3">Example: Before and After Bundling</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-danger">
+                                    <div class="card-header bg-danger text-white">
+                                        <strong><i class="ti ti-x"></i> Before Bundling (Slow)</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="folder-structure">
+src/
+├── <span class="file-icon">📄</span> index.js
+├── <span class="file-icon">📄</span> App.js
+├── <span class="file-icon">📄</span> Header.js
+├── <span class="file-icon">📄</span> Footer.js
+├── <span class="file-icon">📄</span> Button.js
+├── <span class="file-icon">📄</span> Card.js
+├── <span class="file-icon">📄</span> Modal.js
+├── <span class="file-icon">📄</span> utils.js
+├── <span class="file-icon">📄</span> api.js
+├── <span class="file-icon">📄</span> styles.css
+├── <span class="file-icon">📄</span> theme.css
+└── <span class="file-icon">🖼️</span> logo.png
+
+<strong style="color: #dc3545;">❌ Browser loads 12+ separate files</strong>
+<strong style="color: #dc3545;">❌ Many HTTP requests = SLOW</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-success">
+                                    <div class="card-header bg-success text-white">
+                                        <strong><i class="ti ti-check"></i> After Bundling (Fast)</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="folder-structure">
+build/
+├── <span class="file-icon">📄</span> main.js
+│   (All JavaScript bundled)
+│
+├── <span class="file-icon">📄</span> main.css
+│   (All CSS bundled)
+│
+├── <span class="file-icon">📄</span> index.html
+│
+└── <span class="folder-icon">📁</span> static/
+    └── <span class="file-icon">🖼️</span> logo.abc123.png
+
+<strong style="color: #10b981;">✅ Only 3-4 files to load</strong>
+<strong style="color: #10b981;">✅ Fewer requests = FAST</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-plug"></i> Webpack Plugins (Extra Features)</h4>
+                        <div class="example-box">
+                            <p>Plugins add extra functionality to the build process:</p>
+                            
+                            <h5 class="mt-3">1. HtmlWebpackPlugin</h5>
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> webpack.config.js
+                            </div>
+                            <pre><code class="language-javascript">const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    })
+  ]
+};</code></pre>
+                            <p class="mt-2"><strong>What it does:</strong> Automatically generates <code>index.html</code> 
+                            and injects your bundle files into it.</p>
+
+                            <h5 class="mt-4">2. MiniCssExtractPlugin</h5>
+                            <p><strong>What it does:</strong> Extracts CSS into separate files instead of injecting into JS.</p>
+
+                            <h5 class="mt-3">3. TerserPlugin</h5>
+                            <p><strong>What it does:</strong> Minifies JavaScript to reduce file size.</p>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-switch-horizontal"></i> Development vs Production Builds</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered comparison-table">
+                                <thead>
+                                    <tr class="table-light">
+                                        <th style="width: 20%;">Aspect</th>
+                                        <th style="width: 40%;">Development Build</th>
+                                        <th style="width: 40%;">Production Build</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Speed</strong></td>
+                                        <td>⚡ Fast compilation</td>
+                                        <td>🐢 Slower (more optimization)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>File Size</strong></td>
+                                        <td>📦 Larger files</td>
+                                        <td>📦 Smaller (minified)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Source Maps</strong></td>
+                                        <td>✅ Included</td>
+                                        <td>❌ Often excluded</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Optimization</strong></td>
+                                        <td>❌ Minimal</td>
+                                        <td>✅ Full optimization</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Hot Reload</strong></td>
+                                        <td>✅ Enabled</td>
+                                        <td>❌ Disabled</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="success-box mt-4">
+                            <h5><i class="ti ti-circle-check"></i> Summary: Transform and Bundle</h5>
+                            <ul class="mb-0">
+                                <li><strong>Transform:</strong> Convert JSX, ES6+, CSS, images into browser-compatible code using loaders</li>
+                                <li><strong>Bundle:</strong> Combine many files into optimized bundles (main.js, main.css)</li>
+                                <li><strong>Result:</strong> Faster loading websites that work in all browsers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Libraries Bundle -->
+        <div class="row" id="libraries-bundle">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h2 class="card-title mb-0">
+                            <i class="ti ti-books"></i> 3. Libraries Bundle (Vendor Bundling & Code Splitting)
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center section-icon">
+                            <i class="ti ti-package-import"></i>
+                        </div>
+
+                        <div class="definition-box">
+                            <h3><i class="ti ti-bulb"></i> What is Libraries/Vendor Bundling?</h3>
+                            <p class="fs-5 mb-0">
+                                Separating third-party libraries (React, ReactDOM, Axios, Lodash) into a 
+                                <strong>separate bundle file</strong> from your application code.
+                            </p>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-question-mark"></i> Why Separate Library Bundles?</h4>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="benefit-item">
+                                    <i class="ti ti-clock benefit-icon"></i>
+                                    <div>
+                                        <strong>Faster Loading</strong>
+                                        <p class="text-muted mb-0">Libraries change rarely, so they can be cached</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="benefit-item">
+                                    <i class="ti ti-refresh benefit-icon"></i>
+                                    <div>
+                                        <strong>Better Caching</strong>
+                                        <p class="text-muted mb-0">Browser reuses vendor bundle when you update app code</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="benefit-item">
+                                    <i class="ti ti-rocket benefit-icon"></i>
+                                    <div>
+                                        <strong>Performance</strong>
+                                        <p class="text-muted mb-0">Users download less data on updates</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-file-analytics"></i> Example: Single Bundle vs Separate Bundles</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-warning">
+                                    <div class="card-header bg-warning text-dark">
+                                        <strong><i class="ti ti-alert-triangle"></i> Without Vendor Bundling</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="folder-structure">
+build/
+└── <span class="file-icon">📄</span> main.js (1.2 MB)
+    ├── React library
+    ├── ReactDOM library
+    ├── Axios library
+    ├── Lodash library
+    └── Your app code
+
+<strong style="color: #f59e0b;">⚠️ Problem:</strong>
+When you change ONE line of code,
+users must download 1.2 MB again!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-success">
+                                    <div class="card-header bg-success text-white">
+                                        <strong><i class="ti ti-check"></i> With Vendor Bundling</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="folder-structure">
+build/
+├── <span class="file-icon">📄</span> vendor.js (900 KB)
+│   ├── React library
+│   ├── ReactDOM library
+│   ├── Axios library
+│   └── Lodash library
+│
+└── <span class="file-icon">📄</span> app.js (300 KB)
+    └── Your app code
+
+<strong style="color: #10b981;">✅ Benefit:</strong>
+When you change code:
+- vendor.js stays cached
+- Only app.js is re-downloaded!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-code"></i> Real Example with Numbers</h4>
+                        <div class="example-box">
+                            <h5>Scenario: You fix a small bug in your app</h5>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="alert alert-danger">
+                                        <strong>❌ Without Vendor Bundling</strong>
+                                        <hr>
+                                        <p class="mb-1">First Visit: Download 1.2 MB</p>
+                                        <p class="mb-1">After Bug Fix: Download 1.2 MB again</p>
+                                        <p class="mb-0"><strong>Total: 2.4 MB downloaded</strong></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="alert alert-success">
+                                        <strong>✅ With Vendor Bundling</strong>
+                                        <hr>
+                                        <p class="mb-1">First Visit: Download 1.2 MB (900 KB vendor + 300 KB app)</p>
+                                        <p class="mb-1">After Bug Fix: Download 300 KB only (vendor cached)</p>
+                                        <p class="mb-0"><strong>Total: 1.5 MB downloaded</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-trending-down"></i> Savings:</strong> 900 KB less data! 
+                                Faster page load for returning users!
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-cut"></i> Code Splitting</h4>
+                        <div class="key-point">
+                            <p><strong>Code Splitting:</strong> Breaking your bundle into smaller chunks that load on demand.</p>
+                        </div>
+
+                        <div class="example-box">
+                            <h5><i class="ti ti-code"></i> Example 1: Route-based Code Splitting</h5>
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> App.js
+                            </div>
+                            <pre><code class="language-javascript">import React, { lazy, Suspense } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+// Lazy load components
+const Home = lazy(() => import('./pages/Home'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Profile = lazy(() => import('./pages/Profile'));
+
+function App() {
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+        &lt;Routes&gt;
+          &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+          &lt;Route path="/dashboard" element={&lt;Dashboard /&gt;} /&gt;
+          &lt;Route path="/profile" element={&lt;Profile /&gt;} /&gt;
+        &lt;/Routes&gt;
+      &lt;/Suspense&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}</code></pre>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-circle-check"></i> How it works:</strong>
+                                <ul class="mb-0">
+                                    <li>User visits "/" → Only Home.js is downloaded</li>
+                                    <li>User clicks Dashboard → Dashboard.js is downloaded then</li>
+                                    <li>Smaller initial bundle = Faster first load!</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="example-box">
+                            <h5><i class="ti ti-code"></i> Example 2: Component-based Code Splitting</h5>
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> App.js
+                            </div>
+                            <pre><code class="language-javascript">import React, { lazy, Suspense, useState } from 'react';
+
+// Heavy component loaded only when needed
+const HeavyChart = lazy(() => import('./components/HeavyChart'));
+
+function App() {
+  const [showChart, setShowChart] = useState(false);
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;My Dashboard&lt;/h1&gt;
+      
+      &lt;button onClick={() => setShowChart(true)}&gt;
+        Show Analytics
+      &lt;/button&gt;
+
+      {showChart && (
+        &lt;Suspense fallback={&lt;p&gt;Loading chart...&lt;/p&gt;}&gt;
+          &lt;HeavyChart /&gt;
+        &lt;/Suspense&gt;
+      )}
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-circle-check"></i> Benefit:</strong>
+                                The heavy charting library is only downloaded when the user clicks the button!
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-hash"></i> Long-term Caching with Content Hashing</h4>
+                        <div class="example-box">
+                            <p>Webpack adds unique hashes to filenames based on content:</p>
+                            
+                            <div class="folder-structure">
+build/
+├── <span class="file-icon">📄</span> vendor.<strong style="color: #f59e0b;">a3f4b2c1</strong>.js
+├── <span class="file-icon">📄</span> app.<strong style="color: #f59e0b;">d7e8f9a2</strong>.js
+└── <span class="file-icon">📄</span> main.<strong style="color: #f59e0b;">b4c5d6e7</strong>.css
+                            </div>
+
+                            <div class="mt-3">
+                                <p><strong>How it works:</strong></p>
+                                <ul>
+                                    <li>Hash changes only when file content changes</li>
+                                    <li>If vendor.js doesn't change, hash stays same</li>
+                                    <li>Browser knows to use cached version</li>
+                                </ul>
+                            </div>
+
+                            <div class="code-header mt-3">
+                                <i class="ti ti-file-code"></i> webpack.config.js
+                            </div>
+                            <pre><code class="language-javascript">module.exports = {
+  output: {
+    filename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, 'build')
+  }
+};</code></pre>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-settings"></i> Webpack Optimization (How to Configure)</h4>
+                        <div class="example-box">
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> webpack.config.js
+                            </div>
+                            <pre><code class="language-javascript">module.exports = {
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        // Separate vendor bundle
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          priority: 10
+        },
+        // Separate common code
+        common: {
+          minChunks: 2,
+          name: 'common',
+          priority: 5
+        }
+      }
+    }
+  }
+};</code></pre>
+
+                            <div class="note-box mt-3">
+                                <strong><i class="ti ti-info-circle"></i> Note:</strong>
+                                Create React App already includes this configuration automatically!
+                            </div>
+                        </div>
+
+                        <div class="success-box mt-4">
+                            <h5><i class="ti ti-circle-check"></i> Summary: Libraries Bundle</h5>
+                            <ul class="mb-0">
+                                <li><strong>Vendor Bundling:</strong> Separate third-party libraries from app code</li>
+                                <li><strong>Code Splitting:</strong> Load only the code needed for current page</li>
+                                <li><strong>Content Hashing:</strong> Browser caching for better performance</li>
+                                <li><strong>Result:</strong> Faster updates and better user experience</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Hot Module Replacement -->
+        <div class="row" id="hmr">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h2 class="card-title mb-0">
+                            <i class="ti ti-flame"></i> 4. Hot Module Replacement (HMR)
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center section-icon">
+                            <i class="ti ti-refresh"></i>
+                        </div>
+
+                        <div class="definition-box">
+                            <h3><i class="ti ti-bulb"></i> What is Hot Module Replacement (HMR)?</h3>
+                            <p class="fs-5 mb-0">
+                                HMR updates modules in a running app <strong>without a full page reload</strong>. 
+                                It preserves your application state while updating only the changed code.
+                            </p>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-arrows-diff"></i> Without HMR vs With HMR</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-danger">
+                                    <div class="card-header bg-danger text-white">
+                                        <strong><i class="ti ti-x"></i> Without HMR (Normal Reload)</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="workflow-step">
+                                            <div class="step-number">1</div>
+                                            <p class="mt-2 mb-1">You change code</p>
+                                        </div>
+                                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                                        <div class="workflow-step">
+                                            <div class="step-number">2</div>
+                                            <p class="mt-2 mb-1">Save file</p>
+                                        </div>
+                                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                                        <div class="workflow-step">
+                                            <div class="step-number">3</div>
+                                            <p class="mt-2 mb-1"><strong style="color: #dc3545;">Full page reload</strong></p>
+                                        </div>
+                                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                                        <div class="workflow-step">
+                                            <div class="step-number">4</div>
+                                            <p class="mt-2 mb-1"><strong style="color: #dc3545;">All state is lost</strong></p>
+                                        </div>
+                                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                                        <div class="workflow-step">
+                                            <div class="step-number">5</div>
+                                            <p class="mt-2 mb-1">You must repeat actions</p>
+                                        </div>
+                                        
+                                        <div class="alert alert-danger mt-3 mb-0">
+                                            <strong>❌ Problems:</strong>
+                                            <ul class="mb-0">
+                                                <li>Slow feedback loop</li>
+                                                <li>Lost form data</li>
+                                                <li>Must navigate back to page</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-success">
+                                    <div class="card-header bg-success text-white">
+                                        <strong><i class="ti ti-check"></i> With HMR (Hot Reload)</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="workflow-step">
+                                            <div class="step-number">1</div>
+                                            <p class="mt-2 mb-1">You change code</p>
+                                        </div>
+                                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                                        <div class="workflow-step">
+                                            <div class="step-number">2</div>
+                                            <p class="mt-2 mb-1">Save file</p>
+                                        </div>
+                                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                                        <div class="workflow-step">
+                                            <div class="step-number">3</div>
+                                            <p class="mt-2 mb-1"><strong style="color: #10b981;">Only changed module updates</strong></p>
+                                        </div>
+                                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                                        <div class="workflow-step">
+                                            <div class="step-number">4</div>
+                                            <p class="mt-2 mb-1"><strong style="color: #10b981;">State is preserved</strong></p>
+                                        </div>
+                                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                                        <div class="workflow-step">
+                                            <div class="step-number">5</div>
+                                            <p class="mt-2 mb-1">See changes instantly!</p>
+                                        </div>
+                                        
+                                        <div class="alert alert-success mt-3 mb-0">
+                                            <strong>✅ Benefits:</strong>
+                                            <ul class="mb-0">
+                                                <li>Instant feedback</li>
+                                                <li>Form data preserved</li>
+                                                <li>Stay on same page</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-movie"></i> Real-Life Example</h4>
+                        <div class="example-box">
+                            <h5>Scenario: You're building a login form</h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="code-header">
+                                        <i class="ti ti-file-code"></i> LoginForm.js (Original)
+                                    </div>
+                                    <pre><code class="language-javascript">function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  return (
+    &lt;form&gt;
+      &lt;input 
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        placeholder="Email"
+      /&gt;
+      &lt;input 
+        type="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        placeholder="Password"
+      /&gt;
+      &lt;button&gt;Login&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h6>🎬 What Happens:</h6>
+                                            <ol>
+                                                <li>You type email: "john@example.com"</li>
+                                                <li>You type password: "secret123"</li>
+                                                <li>You notice button text should say "Sign In"</li>
+                                                <li>You change the code...</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="code-header">
+                                        <i class="ti ti-file-code"></i> LoginForm.js (Updated)
+                                    </div>
+                                    <pre><code class="language-javascript">function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  return (
+    &lt;form&gt;
+      &lt;input 
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        placeholder="Email"
+      /&gt;
+      &lt;input 
+        type="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        placeholder="Password"
+      /&gt;
+      &lt;button&gt;Sign In&lt;/button&gt; {/* Changed */}
+    &lt;/form&gt;
+  );
+}</code></pre>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="alert alert-success">
+                                        <h6><strong>✅ With HMR:</strong></h6>
+                                        <ul class="mb-0">
+                                            <li>Button text updates instantly to "Sign In"</li>
+                                            <li>Email still shows "john@example.com"</li>
+                                            <li>Password still shows "secret123"</li>
+                                            <li>No need to retype anything!</li>
+                                        </ul>
+                                    </div>
+                                    <div class="alert alert-danger">
+                                        <h6><strong>❌ Without HMR:</strong></h6>
+                                        <ul class="mb-0">
+                                            <li>Page reloads completely</li>
+                                            <li>All inputs are cleared</li>
+                                            <li>You must retype email and password</li>
+                                            <li>Very frustrating!</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-settings"></i> How HMR Works (Technical Explanation)</h4>
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <h5 class="mt-2">Webpack Dev Server Watches Files</h5>
+                            <p class="text-muted mb-0">Monitors all source files for changes</p>
+                        </div>
+                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <h5 class="mt-2">File Change Detected</h5>
+                            <p class="text-muted mb-0">When you save a file, Webpack detects it immediately</p>
+                        </div>
+                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <h5 class="mt-2">Webpack Recompiles Module</h5>
+                            <p class="text-muted mb-0">Only the changed module is recompiled (not the entire app)</p>
+                        </div>
+                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <h5 class="mt-2">Hot Update Sent to Browser</h5>
+                            <p class="text-muted mb-0">Update pushed via WebSocket connection</p>
+                        </div>
+                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                        <div class="workflow-step">
+                            <div class="step-number">5</div>
+                            <h5 class="mt-2">HMR Runtime Applies Update</h5>
+                            <p class="text-muted mb-0">Browser runtime replaces the old module with the new one</p>
+                        </div>
+                        <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                        <div class="workflow-step">
+                            <div class="step-number">6</div>
+                            <h5 class="mt-2">React Re-renders Component</h5>
+                            <p class="text-muted mb-0">Only affected components update, state is preserved</p>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-brand-react"></i> HMR in Create React App</h4>
+                        <div class="example-box">
+                            <p class="lead">Create React App comes with HMR enabled by default!</p>
+                            
+                            <div class="code-header">
+                                <i class="ti ti-terminal"></i> Terminal
+                            </div>
+                            <pre><code class="language-bash"># Start development server
+npm start
+
+# Output:
+Compiled successfully!
+
+You can now view myapp in the browser.
+  Local:            http://localhost:3000
+
+Note: HMR is enabled. Changes will hot reload.</code></pre>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-circle-check"></i> It Just Works!</strong>
+                                <p class="mb-0">No configuration needed. Just run <code>npm start</code> and edit your files!</p>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-flask"></i> Full Stack Development with HMR</h4>
+                        <div class="example-box">
+                            <p>When building a full-stack app with Node/Express backend and React frontend:</p>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card bg-primary text-white">
+                                        <div class="card-header">
+                                            <strong>Backend (Node/Express)</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <p><strong>Tool:</strong> nodemon</p>
+                                            <p class="mb-0"><strong>What it does:</strong> Automatically restarts server when files change</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="code-header mt-3">
+                                        <i class="ti ti-terminal"></i> Terminal 1 (Backend)
+                                    </div>
+                                    <pre><code class="language-bash">nodemon server.js
+
+# Server restarts on file changes</code></pre>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-info text-white">
+                                        <div class="card-header">
+                                            <strong>Frontend (React)</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <p><strong>Tool:</strong> HMR (Webpack Dev Server)</p>
+                                            <p class="mb-0"><strong>What it does:</strong> Hot reloads components without losing state</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="code-header mt-3">
+                                        <i class="ti ti-terminal"></i> Terminal 2 (Frontend)
+                                    </div>
+                                    <pre><code class="language-bash">npm start
+
+# HMR updates UI instantly</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-circle-check"></i> Best Development Experience:</strong>
+                                <ul class="mb-0">
+                                    <li>Backend: Auto-restart with nodemon</li>
+                                    <li>Frontend: Hot reload with HMR</li>
+                                    <li>Both running simultaneously for fast development</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="success-box mt-4">
+                            <h5><i class="ti ti-circle-check"></i> Summary: Hot Module Replacement</h5>
+                            <ul class="mb-0">
+                                <li><strong>HMR:</strong> Updates code without full page reload</li>
+                                <li><strong>State Preserved:</strong> Form data and component state remain intact</li>
+                                <li><strong>Fast Development:</strong> Instant feedback when coding</li>
+                                <li><strong>In CRA:</strong> Enabled automatically with <code>npm start</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Debugging -->
+        <div class="row" id="debugging">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-danger text-white">
+                        <h2 class="card-title mb-0">
+                            <i class="ti ti-bug"></i> 5. Debugging
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center section-icon">
+                            <i class="ti ti-bug-off"></i>
+                        </div>
+
+                        <div class="definition-box">
+                            <h3><i class="ti ti-bulb"></i> What is Debugging?</h3>
+                            <p class="fs-5 mb-0">
+                                Debugging is the process of <strong>finding and fixing errors</strong> in your code. 
+                                In full-stack development, you need to debug both frontend (React) and backend (Node/Express).
+                            </p>
+                        </div>
+
+                        <!-- Debugging Webpack Builds -->
+                        <h3 class="mt-4 mb-3"><i class="ti ti-package"></i> 5.1 Debugging Webpack Build Errors</h3>
+                        
+                        <h4 class="mt-3 mb-3">Common Webpack Errors</h4>
+                        
+                        <div class="example-box">
+                            <h5><i class="ti ti-alert-triangle"></i> Error 1: Module Not Found</h5>
+                            <div class="code-header">
+                                <i class="ti ti-terminal"></i> Error Message
+                            </div>
+                            <pre><code class="language-bash">Module not found: Can't resolve './Header'
+in /src/App.js</code></pre>
+
+                            <div class="alert alert-danger mt-3">
+                                <strong>❌ Problem:</strong> Wrong file name or path
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="card border-danger">
+                                        <div class="card-header bg-danger text-white">
+                                            <strong>Incorrect Code</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="code-header">
+                                                <i class="ti ti-file-code"></i> App.js
+                                            </div>
+                                            <pre><code class="language-javascript">// Wrong - file is header.js (lowercase)
+import Header from './Header';</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-success">
+                                        <div class="card-header bg-success text-white">
+                                            <strong>Correct Code</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="code-header">
+                                                <i class="ti ti-file-code"></i> App.js
+                                            </div>
+                                            <pre><code class="language-javascript">// Correct - matches actual filename
+import Header from './header';</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="example-box">
+                            <h5><i class="ti ti-alert-triangle"></i> Error 2: Loader Configuration Error</h5>
+                            <div class="code-header">
+                                <i class="ti ti-terminal"></i> Error Message
+                            </div>
+                            <pre><code class="language-bash">You may need an appropriate loader to handle this file type</code></pre>
+
+                            <div class="alert alert-danger mt-3">
+                                <strong>❌ Problem:</strong> Missing loader for file type (usually in custom webpack config)
+                            </div>
+
+                            <div class="alert alert-success mt-3">
+                                <strong>✅ Solution:</strong> Add appropriate loader in webpack.config.js
+                            </div>
+
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> webpack.config.js
+                            </div>
+                            <pre><code class="language-javascript">module.exports = {
+  module: {
+    rules: [
+      // For .js/.jsx files
+      {
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader'
+      },
+      // For .css files
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      // For images
+      {
+        test: /\.(png|jpg|gif)$/,
+        type: 'asset/resource'
+      }
+    ]
+  }
+};</code></pre>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-map"></i> Source Maps (Very Important!)</h4>
+                        <div class="key-point">
+                            <p><strong>Source Maps:</strong> Map bundled/minified code back to original source code for easier debugging.</p>
+                        </div>
+
+                        <div class="example-box">
+                            <h5>Why Source Maps Matter</h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card border-danger">
+                                        <div class="card-header bg-danger text-white">
+                                            <strong>❌ Without Source Maps</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="code-header">
+                                                <i class="ti ti-terminal"></i> Error Message
+                                            </div>
+                                            <pre><code class="language-bash">Error at main.js:18930:42
+  at e.render
+  at c.update</code></pre>
+                                            <p class="text-danger mb-0 mt-2">
+                                                <strong>😕 Confusing!</strong> Which file? Which line?
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-success">
+                                        <div class="card-header bg-success text-white">
+                                            <strong>✅ With Source Maps</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="code-header">
+                                                <i class="ti ti-terminal"></i> Error Message
+                                            </div>
+                                            <pre><code class="language-bash">Error at App.js:14:10
+  at App.render
+  at Component.update</code></pre>
+                                            <p class="text-success mb-0 mt-2">
+                                                <strong>😊 Clear!</strong> App.js line 14!
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="note-box mt-3">
+                                <strong><i class="ti ti-info-circle"></i> Note:</strong>
+                                Create React App enables source maps automatically in development mode!
+                            </div>
+                        </div>
+
+                        <!-- Debugging React Frontend -->
+                        <h3 class="mt-5 mb-3"><i class="ti ti-brand-react"></i> 5.2 Debugging React Frontend</h3>
+
+                        <h4 class="mt-3 mb-3">Tool 1: Browser DevTools Console</h4>
+                        <div class="example-box">
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> App.js
+                            </div>
+                            <pre><code class="language-javascript">function App() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => {
+    console.log('Button clicked!');
+    console.log('Current count:', count);
+    setCount(count + 1);
+    console.log('New count:', count + 1);
+  };
+
+  return &lt;button onClick={handleClick}&gt;Count: {count}&lt;/button&gt;;
+}</code></pre>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-circle-check"></i> How to use:</strong>
+                                <ol class="mb-0">
+                                    <li>Open browser (Chrome/Firefox)</li>
+                                    <li>Press F12 or right-click → Inspect</li>
+                                    <li>Go to Console tab</li>
+                                    <li>See your console.log() messages</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3">Tool 2: React DevTools</h4>
+                        <div class="example-box">
+                            <p class="lead">React DevTools is a browser extension for debugging React apps</p>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card bg-light">
+                                        <div class="card-header">
+                                            <strong>Features</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul>
+                                                <li><strong>Component Tree:</strong> See all components</li>
+                                                <li><strong>Props Inspection:</strong> View component props</li>
+                                                <li><strong>State Inspection:</strong> See current state</li>
+                                                <li><strong>Hooks:</strong> Debug useState, useEffect, etc.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-light">
+                                        <div class="card-header">
+                                            <strong>How to Install</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <ol>
+                                                <li>Open Chrome/Firefox</li>
+                                                <li>Go to Extension Store</li>
+                                                <li>Search "React Developer Tools"</li>
+                                                <li>Install extension</li>
+                                                <li>Reload your React app</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-circle-check"></i> Usage Example:</strong>
+                                <p class="mb-0">
+                                    Open DevTools → "Components" tab → Click any component → 
+                                    See its props, state, and hooks on the right panel
+                                </p>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3">Tool 3: Network Tab (API Debugging)</h4>
+                        <div class="example-box">
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> App.js
+                            </div>
+                            <pre><code class="language-javascript">useEffect(() => {
+  fetch('http://localhost:5000/api/users')
+    .then(res => res.json())
+    .then(data => {
+      console.log('Users:', data);
+      setUsers(data);
+    })
+    .catch(err => {
+      console.error('Error fetching users:', err);
+    });
+}, []);</code></pre>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-circle-check"></i> How to debug API calls:</strong>
+                                <ol class="mb-0">
+                                    <li>Open DevTools → Network tab</li>
+                                    <li>Reload page</li>
+                                    <li>Click on request (e.g., "users")</li>
+                                    <li>Check:
+                                        <ul>
+                                            <li>Status code (200, 404, 500)</li>
+                                            <li>Response data</li>
+                                            <li>Request headers</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3">Tool 4: Error Overlay (Create React App)</h4>
+                        <div class="example-box">
+                            <p>Create React App shows a helpful error overlay during development:</p>
+                            
+                            <div class="alert alert-danger">
+                                <h5>Example Error Overlay</h5>
+                                <pre class="mb-0"><code>Failed to compile.
+
+./src/App.js
+  Line 14:10:  'user' is not defined  no-undef
+
+Search for the keywords to learn more about each error.</code></pre>
+                            </div>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-circle-check"></i> Benefits:</strong>
+                                <ul class="mb-0">
+                                    <li>Shows exact file and line number</li>
+                                    <li>Suggests fixes</li>
+                                    <li>Links to documentation</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Debugging Node/Express Backend -->
+                        <h3 class="mt-5 mb-3"><i class="ti ti-brand-nodejs"></i> 5.3 Debugging Node/Express Backend</h3>
+
+                        <h4 class="mt-3 mb-3">Method 1: Console Logging</h4>
+                        <div class="example-box">
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> server.js
+                            </div>
+                            <pre><code class="language-javascript">const express = require('express');
+const app = express();
+
+app.get('/api/users', (req, res) => {
+  console.log('📥 GET /api/users called');
+  console.log('Query params:', req.query);
+  
+  const users = [
+    { id: 1, name: 'John' },
+    { id: 2, name: 'Jane' }
+  ];
+  
+  console.log('📤 Sending users:', users);
+  res.json(users);
+});
+
+app.listen(5000, () => {
+  console.log('🚀 Server running on port 5000');
+});</code></pre>
+
+                            <div class="code-header mt-3">
+                                <i class="ti ti-terminal"></i> Terminal Output
+                            </div>
+                            <pre><code class="language-bash">🚀 Server running on port 5000
+📥 GET /api/users called
+Query params: {}
+📤 Sending users: [ { id: 1, name: 'John' }, { id: 2, name: 'Jane' } ]</code></pre>
+                        </div>
+
+                        <h4 class="mt-4 mb-3">Method 2: Using nodemon</h4>
+                        <div class="example-box">
+                            <p><strong>nodemon</strong> automatically restarts your server when files change</p>
+                            
+                            <div class="code-header">
+                                <i class="ti ti-terminal"></i> Installation
+                            </div>
+                            <pre><code class="language-bash"># Install globally
+npm install -g nodemon
+
+# Or as dev dependency
+npm install --save-dev nodemon</code></pre>
+
+                            <div class="code-header mt-3">
+                                <i class="ti ti-terminal"></i> Usage
+                            </div>
+                            <pre><code class="language-bash"># Instead of: node server.js
+nodemon server.js
+
+# Output:
+[nodemon] starting `node server.js`
+🚀 Server running on port 5000
+[nodemon] watching files...
+[nodemon] file changed: server.js
+[nodemon] restarting...</code></pre>
+
+                            <div class="success-box mt-3">
+                                <strong><i class="ti ti-circle-check"></i> Benefit:</strong>
+                                No need to manually restart server after code changes!
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3">Method 3: Error Handling Middleware</h4>
+                        <div class="example-box">
+                            <div class="code-header">
+                                <i class="ti ti-file-code"></i> server.js
+                            </div>
+                            <pre><code class="language-javascript">const express = require('express');
+const app = express();
+
+// Routes
+app.get('/api/users/:id', (req, res) => {
+  const userId = req.params.id;
+  
+  // Simulate error
+  if (userId > 100) {
+    throw new Error('User ID too large');
+  }
+  
+  res.json({ id: userId, name: 'User' });
+});
+
+// Error handling middleware (must be last!)
+app.use((err, req, res, next) => {
+  console.error('❌ Error:', err.message);
+  console.error('Stack:', err.stack);
+  
+  res.status(500).json({
+    error: err.message,
+    path: req.path
+  });
+});
+
+app.listen(5000);</code></pre>
+
+                            <div class="code-header mt-3">
+                                <i class="ti ti-terminal"></i> When error occurs
+                            </div>
+                            <pre><code class="language-bash">❌ Error: User ID too large
+Stack: Error: User ID too large
+    at /server.js:8:11
+    at Layer.handle [as handle_request]
+    ...</code></pre>
+                        </div>
+
+                        <!-- Full-Stack Debugging -->
+                        <h3 class="mt-5 mb-3"><i class="ti ti-layers-difference"></i> 5.4 Full-Stack Debugging Workflow</h3>
+
+                        <div class="example-box">
+                            <h5>Example Scenario: Button Click Not Working</h5>
+                            
+                            <div class="workflow-step">
+                                <div class="step-number">1</div>
+                                <h6 class="mt-2">Identify the Problem</h6>
+                                <p class="text-muted mb-0">User clicks "Fetch Users" button → Nothing happens</p>
+                            </div>
+                            <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                            
+                            <div class="workflow-step">
+                                <div class="step-number">2</div>
+                                <h6 class="mt-2">Check Frontend Console</h6>
+                                <div class="code-header mt-2">
+                                    <i class="ti ti-terminal"></i> Browser Console
+                                </div>
+                                <pre><code class="language-bash">Failed to fetch users
+Network error: Cannot connect to http://localhost:5000</code></pre>
+                            </div>
+                            <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                            
+                            <div class="workflow-step">
+                                <div class="step-number">3</div>
+                                <h6 class="mt-2">Check Network Tab</h6>
+                                <p class="mb-2">DevTools → Network tab shows:</p>
+                                <div class="alert alert-danger mb-0">
+                                    <code>GET /api/users → 404 Not Found</code>
+                                </div>
+                            </div>
+                            <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                            
+                            <div class="workflow-step">
+                                <div class="step-number">4</div>
+                                <h6 class="mt-2">Check Backend Code</h6>
+                                <div class="code-header mt-2">
+                                    <i class="ti ti-file-code"></i> server.js
+                                </div>
+                                <pre><code class="language-javascript">// Bug: route is /api/user (missing 's')
+app.get('/api/user', (req, res) => {
+  res.json(users);
+});</code></pre>
+                            </div>
+                            <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                            
+                            <div class="workflow-step">
+                                <div class="step-number">5</div>
+                                <h6 class="mt-2">Fix the Bug</h6>
+                                <div class="code-header mt-2">
+                                    <i class="ti ti-file-code"></i> server.js (Fixed)
+                                </div>
+                                <pre><code class="language-javascript">// Fixed: route is now /api/users
+app.get('/api/users', (req, res) => {
+  res.json(users);
+});</code></pre>
+                            </div>
+                            <div class="arrow-icon"><i class="ti ti-arrow-down"></i></div>
+                            
+                            <div class="workflow-step">
+                                <div class="step-number">6</div>
+                                <h6 class="mt-2">Test Again</h6>
+                                <div class="success-box mb-0">
+                                    <strong>✅ Success!</strong> Users are now fetched correctly
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-checklist"></i> Debugging Checklist</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white">
+                                        <strong>Frontend Debugging</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li><input type="checkbox"> Check browser console for errors</li>
+                                            <li><input type="checkbox"> Use React DevTools for component state</li>
+                                            <li><input type="checkbox"> Check Network tab for API calls</li>
+                                            <li><input type="checkbox"> Verify correct API endpoint</li>
+                                            <li><input type="checkbox"> Check source maps for line numbers</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-success text-white">
+                                        <strong>Backend Debugging</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="mb-0">
+                                            <li><input type="checkbox"> Add console.log() in routes</li>
+                                            <li><input type="checkbox"> Check terminal for errors</li>
+                                            <li><input type="checkbox"> Verify route paths match</li>
+                                            <li><input type="checkbox"> Test with Postman/Thunder Client</li>
+                                            <li><input type="checkbox"> Use error handling middleware</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="success-box mt-4">
+                            <h5><i class="ti ti-circle-check"></i> Summary: Debugging</h5>
+                            <ul class="mb-0">
+                                <li><strong>Webpack:</strong> Use source maps for readable error messages</li>
+                                <li><strong>React:</strong> Browser DevTools, React DevTools, Network tab</li>
+                                <li><strong>Node/Express:</strong> Console logging, nodemon, error middleware</li>
+                                <li><strong>Full-Stack:</strong> Systematic approach from frontend to backend</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Webpack in Create React App -->
+        <div class="row" id="cra-webpack">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="card-title mb-0">
+                            <i class="ti ti-brand-react"></i> 6. Webpack in Create React App
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center section-icon">
+                            <i class="ti ti-package"></i>
+                        </div>
+
+                        <div class="definition-box">
+                            <h3><i class="ti ti-bulb"></i> Does Create React App Use Webpack?</h3>
+                            <p class="fs-4 mb-0">
+                                <strong>YES!</strong> Create React App (CRA) uses Webpack internally, 
+                                but the configuration is hidden for simplicity.
+                            </p>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-eye-off"></i> Hidden Configuration</h4>
+                        <div class="key-point">
+                            <p>When you create a React app with CRA, you don't see <code>webpack.config.js</code></p>
+                            <p class="mb-0">But Webpack is working behind the scenes for:</p>
+                            <ul class="mt-2 mb-0">
+                                <li>Bundling JavaScript files</li>
+                                <li>Transforming JSX with Babel</li>
+                                <li>Loading CSS and images</li>
+                                <li>Hot Module Replacement</li>
+                                <li>Production optimization</li>
+                            </ul>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-terminal"></i> npm start vs npm run build</h4>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-info">
+                                    <div class="card-header bg-info text-white">
+                                        <h5 class="mb-0"><i class="ti ti-player-play"></i> npm start</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><strong>What it does:</strong></p>
+                                        <ul>
+                                            <li>Runs Webpack in development mode</li>
+                                            <li>Starts Webpack Dev Server</li>
+                                            <li>Enables Hot Module Replacement</li>
+                                            <li>Keeps bundles in memory (faster)</li>
+                                            <li>Opens browser at http://localhost:3000</li>
+                                        </ul>
+                                        
+                                        <div class="code-header mt-3">
+                                            <i class="ti ti-terminal"></i> Output
+                                        </div>
+                                        <pre><code class="language-bash">Compiled successfully!
+
+You can now view myapp in the browser.
+  Local:   http://localhost:3000
+
+Note: HMR is enabled.</code></pre>
+
+                                        <div class="note-box mt-3">
+                                            <strong><i class="ti ti-info-circle"></i> Note:</strong>
+                                            No files are written to disk. Everything is in memory!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-success">
+                                    <div class="card-header bg-success text-white">
+                                        <h5 class="mb-0"><i class="ti ti-box"></i> npm run build</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><strong>What it does:</strong></p>
+                                        <ul>
+                                            <li>Runs Webpack in production mode</li>
+                                            <li>Creates optimized bundles</li>
+                                            <li>Minifies code</li>
+                                            <li>Outputs to <code>build/</code> folder</li>
+                                            <li>Ready to deploy</li>
+                                        </ul>
+                                        
+                                        <div class="code-header mt-3">
+                                            <i class="ti ti-terminal"></i> Output
+                                        </div>
+                                        <pre><code class="language-bash">Creating an optimized production build...
+Compiled successfully.
+
+File sizes after gzip:
+  52.3 KB  build/static/js/main.abc123.js
+  1.8 KB   build/static/css/main.def456.css</code></pre>
+
+                                        <div class="success-box mt-3">
+                                            <strong><i class="ti ti-circle-check"></i> Result:</strong>
+                                            Real files in <code>build/</code> folder ready for production!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4 mb-3"><i class="ti ti-flask-2"></i> Complete Example: Creating a React
